@@ -6,18 +6,24 @@ let app = angular.module('app', ['ui.router'
 
 app.config(function ($locationProvider, $stateProvider, $urlServiceProvider) {
 
-    $locationProvider.hashPrefix('!');
+    //$locationProvider.hashPrefix('!');
 
     $urlServiceProvider.rules.otherwise({ state: 'initial' });
 
-    $stateProvider.state('algoritmsList', {
-        url: '/algoritmsList',
-        component: 'algoritmsList',
-        resolve: {
-            algoritms: function (AlgoritmsService) {
-                return AlgoritmsService.list();
-            }
-        }
+    $stateProvider.state('games', {
+        url: '/games',
+        abstract: true,
+        template: '<ui-view/>',
+    });
+
+    $stateProvider.state('games.colorFinder', {
+        url: '/colorFinder',
+        component: 'colorFinder',
+        // resolve: {
+        //     algoritms: function (colorFinderService) {
+        //         return colorFinderService.list();
+        //     }
+        // }
     });
 
     $stateProvider.state('initial', {
