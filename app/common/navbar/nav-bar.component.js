@@ -1,12 +1,10 @@
 'use strict';
 
-function NavBarController(menuService) {
+function NavBarController(navBarService) {
     let navBarCtrlCtrl = this;
 }
 
-NavBarController.$injector['menuService'];
-
 angular.module('app').component('navbar', {
-    controller: NavBarController,
+    controller: ['navBarService',NavBarController],
     templateUrl: '/app/common/navbar/nav-bar.html'
 });
