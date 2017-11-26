@@ -27,12 +27,13 @@ app.factory('colorFinderGameService', [function colorFinderGameService() {
             return currentScore;
         },
         attemptFail: function () {
+            currentAttemptsLeft--;
             if (currentAttemptsLeft > 0) {
-                currentAttemptsLeft--;
                 return currentAttemptsLeft;
             } else {
+                let attemptsLeftToReturn = currentAttemptsLeft;
                 this.reset();
-                return currentAttemptsLeft;
+                return attemptsLeftToReturn;
             }
         },
         scoreAdd: function () {
@@ -61,7 +62,7 @@ app.factory('colorFinderGameService', [function colorFinderGameService() {
             return changedColor;
         },
         reset: function () {
-            currentMapSize = defaultMapSize;
+            currentElementsInRow = defaultElementsInRow;
             currentScore = defaultScore;
             currentAttemptsLeft = defaultAttemptsLeft;
         }

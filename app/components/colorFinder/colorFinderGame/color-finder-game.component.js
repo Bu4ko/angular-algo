@@ -12,7 +12,6 @@ function ColorFinderGameController($q, colorFinderGameService) {
         paper.install(window);
         paper.setup('colorFinder');
         ctrl.drawGameField();
-        paper.view.draw();
     };
 
     ctrl.drawGameField = function () {
@@ -32,6 +31,9 @@ function ColorFinderGameController($q, colorFinderGameService) {
                 fieldElements[i][j].strokeColor = 'black';
                 if (i !== choosenElementI || j !== choosenElementJ) {
                     fieldElements[i][j].fillColor = defaultColor;
+                    fieldElements[i][j].onMouseDown = function (event) {
+                        ctrl.failClick();
+                    }
                 } else {
                     fieldElements[i][j].fillColor = changedColor;
                     console.log(`size: ${elementsInRow} i: ${i} j: ${j}`);
@@ -50,7 +52,10 @@ function ColorFinderGameController($q, colorFinderGameService) {
     };
 
     ctrl.failClick = function () {
-
+        let attemptsLeft = colorFinderGameService.attemptFail();
+        if (attemptsLeft === 0) {
+            ctrl.drawGameField();
+        }
     };
 
     ctrl.chooseChangedElement = function (elementsInRow) {
