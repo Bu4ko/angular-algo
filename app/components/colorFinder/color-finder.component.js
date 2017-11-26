@@ -1,16 +1,11 @@
 'use strict';
 
-function ColorFinderController($q, colorFinderService) {
-    let colorFinderCtrl = this;
-
-    colorFinderCtrl.$onInit = function () {
-        paper.install(window);
-        paper.setup('colorFinder');
-    };
+function ColorFinderController($q) {
+    let ctrl = this;
 }
 
 app.component('colorFinder', {
-    controller: ['$q', 'colorFinderService', ColorFinderController],
+    controller: ['$q', ColorFinderController],
     templateUrl: '/app/components/colorFinder/color-finder.html',
     bind: {
 
