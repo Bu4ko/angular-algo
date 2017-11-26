@@ -3,6 +3,8 @@
 function ColorFinderGameController($q, colorFinderGameService) {
     let ctrl = this;
 
+    ctrl.fieldElements = [];
+
     ctrl.$onInit = function () {
         ctrl.setupGame();
         ctrl.fieldSize = colorFinderGameService.getFieldSize();
@@ -20,24 +22,24 @@ function ColorFinderGameController($q, colorFinderGameService) {
         let changedColor = colorFinderGameService.getChangedColor();
         let elementsInRow = colorFinderGameService.getCurrentElementsInRow();
         let elementSize = colorFinderGameService.getCurrentElementSize();
-        let fieldElements = [];
+        ctrl.fieldElements = [];
         let [choosenElementI, choosenElementJ] =
             ctrl.chooseChangedElement(elementsInRow);
         for (let i = 0; i < elementsInRow; i++) {
-            fieldElements[i] = [];
+            ctrl.fieldElements[i] = [];
             for (let j = 0; j < elementsInRow; j ++) {
-                fieldElements[i][j] = new paper.Path.Rectangle(
+                ctrl.fieldElements[i][j] = new paper.Path.Rectangle(
                     new paper.Point(i * elementSize, j * elementSize), elementSize);
-                fieldElements[i][j].strokeColor = 'black';
+                ctrl.fieldElements[i][j].strokeColor = 'black';
                 if (i !== choosenElementI || j !== choosenElementJ) {
-                    fieldElements[i][j].fillColor = defaultColor;
-                    fieldElements[i][j].onMouseDown = function (event) {
+                    ctrl.fieldElements[i][j].fillColor = defaultColor;
+                    ctrl.fieldElements[i][j].onMouseDown = function (event) {
                         ctrl.failClick();
                     }
                 } else {
-                    fieldElements[i][j].fillColor = changedColor;
+                    ctrl.fieldElements[i][j].fillColor = changedColor;
                     console.log(`size: ${elementsInRow} i: ${i} j: ${j}`);
-                    fieldElements[i][j].onMouseDown = function (event) {
+                    ctrl.fieldElements[i][j].onMouseDown = function (event) {
                         ctrl.successClick();
                     }
                 }
