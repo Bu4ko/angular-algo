@@ -4,6 +4,7 @@ function ColorFinderGameController($q, colorFinderGameService) {
     let ctrl = this;
 
     ctrl.fieldElements = [];
+    ctrl.livesLeft = colorFinderGameService.getCurrentAttemptsLeft();
 
     ctrl.$onInit = function () {
         ctrl.setupGame();
@@ -35,7 +36,7 @@ function ColorFinderGameController($q, colorFinderGameService) {
                     ctrl.fieldElements[i][j].fillColor = defaultColor;
                     ctrl.fieldElements[i][j].onMouseDown = function (event) {
                         ctrl.failClick();
-                    }
+                    };
                 } else {
                     ctrl.fieldElements[i][j].fillColor = changedColor;
                     console.log(`size: ${elementsInRow} i: ${i} j: ${j}`);
@@ -51,6 +52,7 @@ function ColorFinderGameController($q, colorFinderGameService) {
         colorFinderGameService.setCurrentElementsInRow(
             colorFinderGameService.getCurrentElementsInRow() + 1);
         ctrl.drawGameField();
+        ctrl.getLivesWithPromise();
     };
 
     ctrl.failClick = function () {
@@ -58,6 +60,16 @@ function ColorFinderGameController($q, colorFinderGameService) {
         if (attemptsLeft === 0) {
             ctrl.drawGameField();
         }
+        ctrl.getLivesWithPromise();
+    };
+
+    //Need this to update in digest cycle changes from paper.js watchers
+    ctrl.getLivesWithPromise = function () {
+        let promise = $q.defer();
+        promise.resolve(colorFinderGameService.getCurrentAttemptsLeft());
+        promise.promise.then(function(result) {
+            ctrl.livesLeft = result;
+        });
     };
 
     ctrl.chooseChangedElement = function (elementsInRow) {
