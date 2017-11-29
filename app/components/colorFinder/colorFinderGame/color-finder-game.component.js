@@ -7,6 +7,7 @@ function ColorFinderGameController($q, colorFinderGameService) {
     ctrl.livesLeft = colorFinderGameService.getCurrentAttemptsLeft();
 
     ctrl.$onInit = function () {
+        colorFinderGameService.reset();
         ctrl.setupGame();
         ctrl.fieldSize = colorFinderGameService.getFieldSize();
     };
