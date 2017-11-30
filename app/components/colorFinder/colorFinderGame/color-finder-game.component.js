@@ -4,21 +4,23 @@ function ColorFinderGameController($q, colorFinderGameService) {
     let ctrl = this;
 
     ctrl.fieldElements = [];
-    ctrl.livesLeft = colorFinderGameService.getCurrentAttemptsLeft();
 
     ctrl.$onInit = function () {
         colorFinderGameService.reset();
+        ctrl.livesLeft = colorFinderGameService.getCurrentAttemptsLeft();
         ctrl.setupGame();
         ctrl.fieldSize = colorFinderGameService.getFieldSize();
     };
 
     ctrl.setupGame = function () {
+        paper.clear();
         paper.install(window);
         paper.setup('colorFinder');
         ctrl.drawGameField();
     };
 
     ctrl.drawGameField = function () {
+        ctrl.removeElements();
         colorFinderGameService.calculateGameColors();
         let defaultColor = colorFinderGameService.getDefaultColor();
         let changedColor = colorFinderGameService.getChangedColor();
@@ -62,6 +64,14 @@ function ColorFinderGameController($q, colorFinderGameService) {
             ctrl.drawGameField();
         }
         ctrl.getLivesWithPromise();
+    };
+
+    ctrl.removeElements = function () {
+        for (let i = 0; i < ctrl.fieldElements.length; i++) {
+            for (let j = 0; j < ctrl.fieldElements[i].length; j ++) {
+                ctrl.fieldElements[i][j].remove();
+            }
+        }
     };
 
     //Need this to update in digest cycle changes from paper.js watchers
