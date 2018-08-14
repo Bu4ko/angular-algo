@@ -1,2 +1,2 @@
-npm install -g http-server
+npm install -g http-server \n
 http-server
